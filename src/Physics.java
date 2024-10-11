@@ -1,0 +1,11 @@
+import java.util.LinkedList;
+
+public class Physics {
+    public static boolean Collision(EntityA enta, EntityB entb){
+        if(enta.getBounds().intersects(entb.getBounds())){
+            return true;
+        }
+        return false;
+    }
+
+}
