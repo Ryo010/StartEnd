@@ -1,3 +1,5 @@
+//Loading of singular songs class
+//Yes Needed
 import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
 import org.jaudiotagger.tag.FieldKey;
@@ -8,6 +10,7 @@ import com.mpatric.mp3agic.Mp3File;
 import java.io.File;
 
 public class Song {
+    //A Song specifics
     private String songTitle;
     private String songArtist;
     private String songLength;
@@ -15,6 +18,7 @@ public class Song {
     private Mp3File mp3File;
     private double frameRatePerMilliseconds;
 
+    //Opens the audio file and finds song length
     public Song(String filePath){
         this.filePath = filePath;
         try {
@@ -39,6 +43,7 @@ public class Song {
         }
     }
 
+    //Converting song length to my own format
     private String ConvertToSongLengthFormat() {
         long minutes = mp3File.getLengthInSeconds() / 60;
         long seconds = mp3File.getLengthInSeconds() % 60;
@@ -48,26 +53,21 @@ public class Song {
         return formattedTime;
     }
 
-    public String getSongTitle() {
-        return songTitle;
+    //Returns song title
+    public String getSongTitle() { return songTitle; }
 
-    }
+    //Returns song artist
+    public String getSongArtist() { return songArtist; }
 
-    public String getSongArtist() {
-        return songArtist;
+    //Returns song length in my formatted time
+    public String getSongLength() { return songLength; }
 
-    }
+    //Returns file path of song
+    public String getFilePath() { return filePath; }
 
-    public String getSongLength() {
-        return songLength;
+    //Returns the mp3 file
+    public Mp3File getMp3File(){ return mp3File; }
 
-    }
-
-    public String getFilePath() {
-        return filePath;
-
-    }
-
-    public Mp3File getMp3File(){return mp3File;}
-    public double getFrameRatePerMillisecond(){return frameRatePerMilliseconds;}
+    //Returns frame rate of the song in ms
+    public double getFrameRatePerMillisecond(){ return frameRatePerMilliseconds; }
 }

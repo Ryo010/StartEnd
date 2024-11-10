@@ -1,29 +1,32 @@
+//Animation class which draws all animations and can draw animations up to 14 frames
+//Yes Needed
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class Animation {
-    private int speed;
-    private int frames;
-    private int index = 0;
-    private int count = 0;
+    private int speed;                                      //Animation speed
+    private int frames;                                     //Number of frames
+    private int index = 0;                                  //Indexing to control speed
+    private int count = 0;                                  //Frame counting
 
-    private BufferedImage img1;
-    private BufferedImage img2;
-    private BufferedImage img3;
-    private BufferedImage img4;
-    private BufferedImage img5;
-    private BufferedImage img6;
-    private BufferedImage img7;
-    private BufferedImage img8;
-    private BufferedImage img9;
-    private BufferedImage img10;
-    private BufferedImage img11;
-    private BufferedImage img12;
-    private BufferedImage img13;
-    private BufferedImage img14;
+    private BufferedImage img1;                             //Frame 1
+    private BufferedImage img2;                             //Frame 2
+    private BufferedImage img3;                             //Frame 3
+    private BufferedImage img4;                             //Frame 4
+    private BufferedImage img5;                             //Frame 5
+    private BufferedImage img6;                             //Frame 6
+    private BufferedImage img7;                             //Frame 7
+    private BufferedImage img8;                             //Frame 8
+    private BufferedImage img9;                             //Frame 9
+    private BufferedImage img10;                            //Frame 10
+    private BufferedImage img11;                            //Frame 11
+    private BufferedImage img12;                            //Frame 12
+    private BufferedImage img13;                            //Frame 13
+    private BufferedImage img14;                            //Frame 14
 
-    private BufferedImage currentImg;
+    private BufferedImage currentImg;                       //Current Frame
 
+    //14 Frame Constructor
     public Animation(int speed, BufferedImage img1, BufferedImage img2, BufferedImage img3, BufferedImage img4, BufferedImage img5, BufferedImage img6, BufferedImage img7, BufferedImage img8, BufferedImage img9, BufferedImage img10, BufferedImage img11, BufferedImage img12, BufferedImage img13, BufferedImage img14){
         this.speed = speed;
         this.img1 = img1;
@@ -43,6 +46,7 @@ public class Animation {
         frames = 14;
     }
 
+    //13 Frame Constructor
     public Animation(int speed, BufferedImage img1, BufferedImage img2, BufferedImage img3, BufferedImage img4, BufferedImage img5, BufferedImage img6, BufferedImage img7, BufferedImage img8, BufferedImage img9, BufferedImage img10, BufferedImage img11, BufferedImage img12, BufferedImage img13){
         this.speed = speed;
         this.img1 = img1;
@@ -61,6 +65,7 @@ public class Animation {
         frames = 13;
     }
 
+    //12 Frame Constructor
     public Animation(int speed, BufferedImage img1, BufferedImage img2, BufferedImage img3, BufferedImage img4, BufferedImage img5, BufferedImage img6, BufferedImage img7, BufferedImage img8, BufferedImage img9, BufferedImage img10, BufferedImage img11, BufferedImage img12){
         this.speed = speed;
         this.img1 = img1;
@@ -78,6 +83,7 @@ public class Animation {
         frames = 12;
     }
 
+    //11 Frame Constructor
     public Animation(int speed, BufferedImage img1, BufferedImage img2, BufferedImage img3, BufferedImage img4, BufferedImage img5, BufferedImage img6, BufferedImage img7, BufferedImage img8, BufferedImage img9, BufferedImage img10, BufferedImage img11){
         this.speed = speed;
         this.img1 = img1;
@@ -94,6 +100,7 @@ public class Animation {
         frames = 11;
     }
 
+    //10 Frame Constructor
     public Animation(int speed, BufferedImage img1, BufferedImage img2, BufferedImage img3, BufferedImage img4, BufferedImage img5, BufferedImage img6, BufferedImage img7, BufferedImage img8, BufferedImage img9, BufferedImage img10){
         this.speed = speed;
         this.img1 = img1;
@@ -109,6 +116,7 @@ public class Animation {
         frames = 10;
     }
 
+    //9 Frame Constructor
     public Animation(int speed, BufferedImage img1, BufferedImage img2, BufferedImage img3, BufferedImage img4, BufferedImage img5, BufferedImage img6, BufferedImage img7, BufferedImage img8, BufferedImage img9){
         this.speed = speed;
         this.img1 = img1;
@@ -123,6 +131,7 @@ public class Animation {
         frames = 9;
     }
 
+    //8 Frame Constructor
     public Animation(int speed, BufferedImage img1, BufferedImage img2, BufferedImage img3, BufferedImage img4, BufferedImage img5, BufferedImage img6, BufferedImage img7, BufferedImage img8){
         this.speed = speed;
         this.img1 = img1;
@@ -136,6 +145,7 @@ public class Animation {
         frames = 8;
     }
 
+    //7 Frame Constructor
     public Animation(int speed, BufferedImage img1, BufferedImage img2, BufferedImage img3, BufferedImage img4, BufferedImage img5, BufferedImage img6, BufferedImage img7){
         this.speed = speed;
         this.img1 = img1;
@@ -148,6 +158,7 @@ public class Animation {
         frames = 7;
     }
 
+    //6 Frame Constructor
     public Animation(int speed, BufferedImage img1, BufferedImage img2, BufferedImage img3, BufferedImage img4, BufferedImage img5, BufferedImage img6){
         this.speed = speed;
         this.img1 = img1;
@@ -159,6 +170,7 @@ public class Animation {
         frames = 6;
     }
 
+    //5 Frame Constructor
     public Animation(int speed, BufferedImage img1, BufferedImage img2, BufferedImage img3, BufferedImage img4, BufferedImage img5){
         this.speed = speed;
         this.img1 = img1;
@@ -169,6 +181,7 @@ public class Animation {
         frames = 5;
     }
 
+    //4 Frame Constructor
     public Animation(int speed, BufferedImage img1, BufferedImage img2, BufferedImage img3, BufferedImage img4){
         this.speed = speed;
         this.img1 = img1;
@@ -178,6 +191,7 @@ public class Animation {
         frames = 4;
     }
 
+    //3 Frame Constructor
     public Animation(int speed, BufferedImage img1, BufferedImage img2, BufferedImage img3){
         this.speed = speed;
         this.img1 = img1;
@@ -186,6 +200,7 @@ public class Animation {
         frames = 3;
     }
 
+    //2 Frame Constructor
     public Animation(int speed, BufferedImage img1, BufferedImage img2){
         this.speed = speed;
         this.img1 = img1;
@@ -193,6 +208,7 @@ public class Animation {
         frames = 2;
     }
 
+    //Running the Animation
     public void runAnimation(){
         index++;
         if(index > speed){
@@ -201,6 +217,7 @@ public class Animation {
         }
     }
 
+    //Changing frames for animation
     public void nextFrame(){
         switch (frames){
             case 2:
@@ -522,23 +539,22 @@ public class Animation {
         }
     }
 
+    //Drawing the current frame
     public void drawAnimation(Graphics g, double x, double y, int offset){
+
         g.drawImage(currentImg, (int)x - offset, (int)y, null);
+
     }
 
-    public void setCount(int count){
-        this.count = count;
-    }
+    //Setting the number of frames
+    public void setCount(int count){ this.count = count; }
 
-    public int getCount(){
-        return count;
-    }
+    //Getting number of frames
+    public int getCount(){ return count; }
 
-    public int getSpeed(){
-        return speed;
-    }
+    //Getting the animation speed
+    public int getSpeed(){ return speed; }
 
-    public void setSpeed(int speed){
-        this.speed = speed;
-    }
+    //Setting the animation speed
+    public void setSpeed(int speed){ this.speed = speed; }
 }

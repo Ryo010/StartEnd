@@ -1,3 +1,5 @@
+//Class which runs it all
+//Yes Needed
 import javax.swing.SwingUtilities;
 
 public class App {

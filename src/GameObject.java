@@ -1,3 +1,5 @@
+//Game entity boundaries
+//Nah
 import java.awt.*;
 
 public class GameObject {

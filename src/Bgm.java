@@ -1,3 +1,5 @@
+//Background Music class
+//Yes Needed
 import javazoom.jl.player.advanced.AdvancedPlayer;
 import javazoom.jl.player.advanced.PlaybackEvent;
 import javazoom.jl.player.advanced.PlaybackListener;
@@ -8,16 +10,17 @@ import java.util.ArrayList;
 public class Bgm extends PlaybackListener {
     private static final Object playSignal = new Object();
 
-    private Song currentSong;
+    private Song currentSong;                           //Current Playing song
 
-    private ArrayList<Song> playlist;
+    private ArrayList<Song> playlist;                   //An array to put all the songs in a play order
 
-    private int currentPlaylistIndex;
+    private int currentPlaylistIndex;                   //Index for which song is playing from the playlist currently
 
-    private AdvancedPlayer advancedPlayer;
+    private AdvancedPlayer advancedPlayer;              //AdvancedPlayer class object
 
     private boolean songFinished;
 
+    //Stops the current playing song
     public void stopSong(){
         if(advancedPlayer != null){
             advancedPlayer.stop();
@@ -26,6 +29,7 @@ public class Bgm extends PlaybackListener {
         }
     }
 
+    //Switching to next song
     public void nextSong() {
         if(playlist == null) return;
 
@@ -38,6 +42,7 @@ public class Bgm extends PlaybackListener {
         playCurrentSong();
     }
 
+    //Switching back to previous song
     public void prevSong(){
         if(playlist == null) return;
 
@@ -51,6 +56,7 @@ public class Bgm extends PlaybackListener {
         }
     }
 
+    //Loading the playlist
     public void loadPlaylist(File playlistFile){
         playlist = new ArrayList<>();
 
@@ -76,6 +82,7 @@ public class Bgm extends PlaybackListener {
         }
     }
 
+    //Playing the current song and where everything starts
     public void playCurrentSong(){
         if(currentSong == null) return;
         try{
@@ -92,6 +99,7 @@ public class Bgm extends PlaybackListener {
         }
     }
 
+    //Thread for the music player
     private void startMusicThread(){
         new Thread(new Runnable() {
             @Override
@@ -105,6 +113,7 @@ public class Bgm extends PlaybackListener {
         }).start();
     }
 
+    //For when song is playing
     @Override
     public void playbackStarted(PlaybackEvent evt) {
 
@@ -112,6 +121,7 @@ public class Bgm extends PlaybackListener {
         songFinished = false;
     }
 
+    //For when song has finished playing
     @Override
     public void playbackFinished(PlaybackEvent evt){
 

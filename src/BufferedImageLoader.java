@@ -1,4 +1,5 @@
-
+//Sprite Images etc are loaded using this class
+//Yes Needed
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;

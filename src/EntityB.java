@@ -1,3 +1,5 @@
+//Enemy entity interface
+//One is enough so not needed
 import java.awt.*;
 
 public interface EntityB {

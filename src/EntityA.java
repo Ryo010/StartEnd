@@ -1,3 +1,5 @@
+//Player entity interface
+//Yes Needed
 import java.awt.*;
 
 public interface EntityA {

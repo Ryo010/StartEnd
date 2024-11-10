@@ -1,6 +1,10 @@
+//Main Game class that runs mostly everything
+//Yes Needed
 import javax.swing.*;
 import java.awt.*;
 import java.awt.Canvas;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
@@ -10,61 +14,73 @@ import java.util.LinkedList;
 
 public class GameGui extends Canvas implements Runnable{
 
+    //Game Window Specifications
     private static final long serialVersionUID = 1L;
     public static final int WIDTH = 320;
     public static final int HEIGHT = WIDTH / 12 * 9;
     public static final int SCALE = 2;
     public final String TITLE = "StartEnd";
-
-    private int Enemy_Count = 20;
-
-    public static int Health = 1;
-
     public static final Color FRAME_COLOR = Color.BLACK;
     public static final Color TEXT_COLOR = Color.WHITE;
 
+    //Enemy Counter
+    private int Enemy_Count = 20;
+
+    //Player Health
+    public static int Health = 1;
+
+    //Game loop specifics
     private boolean running = false;
     private Thread thread;
 
+    //All Spritesheets
     private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
     private BufferedImage spriteSheet = null;
     private BufferedImage spritesheetEnemy = null;
     private BufferedImage background = null;
     private BufferedImage healthbar = null;
 
+    //Other classes
     private Player player;
     private Texture texture;
     private Controller controller;
     private Menu menu;
 
+    //Enemy Entity
     public LinkedList<EntityB> eb;
 
+    //Timer
+    Timer timer;
+    private int seconds;
+
+    //All classes objects and SpriteSheets
     private void init(){
         requestFocus();
         BufferedImageLoader loader = new BufferedImageLoader();
         try{
-            spriteSheet = loader.loadImage("Sprite/Amelia Watson.png");
-            spritesheetEnemy = loader.loadImage("Sprite/Enemies(Weapons).png");
-            background = loader.loadImage("Sprite/minimalist.jpg");
-            healthbar = loader.loadImage("Sprite/heart.png");
+            spriteSheet = loader.loadImage("Sprite/Amelia Watson.png");         //Player SpriteSheet
+            spritesheetEnemy = loader.loadImage("Sprite/Enemies(Weapons).png"); //Enemy SpriteSheet
+            background = loader.loadImage("Sprite/minimalist.jpg");             //Background
+            healthbar = loader.loadImage("Sprite/heart.png");                   //Player health
 
         }catch (IOException e){
             e.printStackTrace();
         }
-        addKeyListener(new KeyboardInput(this));
-        addMouseListener(new MouseInput());
+        addKeyListener(new KeyboardInput(this));                             //Keyboard Inputs
+        addMouseListener(new MouseInput());                                           //Mouse Inputs
 
-        texture = new Texture(this);
+        texture = new Texture(this);                                         //All spritesheets and images
 
-        controller = new Controller(texture);
-        player = new Player(200,200, texture, this, controller);
-        menu = new Menu();
+        controller = new Controller(texture);                                         //Controls the player
+        player = new Player(200,200, texture, this, controller);       //Player Spawn point and object
+        menu = new Menu();                                                            //Main Menu
 
-        eb = controller.getEntityB();
+        eb = controller.getEntityB();                                                 //Enemy list
 
-        controller.createEnemy(Enemy_Count);
+        controller.createEnemy(Enemy_Count);                                          //Enemy Spawns
     }
 
+    //Thread start for game loop
     private synchronized void start(){
         if(running){
             return;
@@ -75,6 +91,7 @@ public class GameGui extends Canvas implements Runnable{
         thread.start();
     }
 
+    //Stopping all threads and the entire game
     private synchronized void stop(){
         if (!running){
             return;
@@ -87,21 +104,28 @@ public class GameGui extends Canvas implements Runnable{
         System.exit(1);
     }
 
+    //Background music specifics
     private JLabel title, playButton, quitButton;
     Bgm bgm = new Bgm();
 
+    //Flag for when to stop Menu bgm and switch to in game bgm and vica-versa
     private static boolean songplayed = false;
 
+    //Menu and in game bgm playlists
     File PlaylistFile1 = new File("src/Assets/BackgroundMusic/GameBgm.txt");
     File PlaylistFile2 = new File("src/Assets/BackgroundMusic/MenuBgm.txt");
 
+    //States to change from menu -> game and game -> menu
     public static enum STATE {
         MENU,
-        GAME
+        GAME,
+        OTHER
     };
 
+    //Default state is MENU
     public static STATE state = STATE.MENU;
 
+    //Constructor specifies the Gui features and starts the threads and game loop
     public GameGui() {
 
         setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
@@ -116,9 +140,11 @@ public class GameGui extends Canvas implements Runnable{
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
+        simpleTimer();
         start();
     }
 
+    //Game loop (Don't mind the math)
     public void run(){
         init();
         long lastTime = System.nanoTime();
@@ -150,6 +176,20 @@ public class GameGui extends Canvas implements Runnable{
         stop();
     }
 
+    //Timer (still a work in progress)
+    public void simpleTimer(){
+        timer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                seconds++;
+
+
+            }
+        });
+
+    }
+
+    //Ticks for all entities in game
     public void tick(){
         if (state == STATE.GAME) {
             player.tick();
@@ -157,6 +197,7 @@ public class GameGui extends Canvas implements Runnable{
         }
     }
 
+    //Renders all the spritesheets and main menu
     public void render(){
 
         BufferStrategy bufferStrategy = this.getBufferStrategy();
@@ -181,6 +222,9 @@ public class GameGui extends Canvas implements Runnable{
                 bgm.stopSong();
                 bgm.loadPlaylist(PlaylistFile1);
                 songplayed = false;
+
+                seconds = 0;
+                timer.start();
             }
         } else if (state == STATE.MENU){
             menu.render(graphics);
@@ -188,12 +232,15 @@ public class GameGui extends Canvas implements Runnable{
                 bgm.stopSong();
                 bgm.loadPlaylist(PlaylistFile2);
                 songplayed = true;
+
+                timer.stop();
             }
         }
         graphics.dispose();
         bufferStrategy.show();
     }
 
+    //Makes sure to listen to keyboard inputs to move player
     public void keyPressed(KeyEvent e){
         int key = e.getKeyCode();
         if (state == STATE.GAME) {
@@ -206,36 +253,70 @@ public class GameGui extends Canvas implements Runnable{
             } else if (key == KeyEvent.VK_UP) {
                 player.setVelY(-5);
             }
-        }
+        } /*else if (state == STATE.OTHER) {
+            if (key == KeyEvent.VK_RIGHT) {
+                player.setVelX(5);
+            } else if (key == KeyEvent.VK_D) {
+
+            } else if (key == KeyEvent.VK_LEFT) {
+                player.setVelX(-5);
+            } else if (key == KeyEvent.VK_A) {
+
+            } else if (key == KeyEvent.VK_DOWN) {
+                player.setVelY(5);
+            } else if (key == KeyEvent.VK_S) {
+
+            }  else if (key == KeyEvent.VK_UP) {
+                player.setVelY(-5);
+            } else if (key == KeyEvent.VK_W) {
+
+            }
+        }*/
     }
 
+    //Listens to when the keyboard keys are released
     public void keyReleased(KeyEvent e){
         int key = e.getKeyCode();
+        if (state == STATE.GAME) {
+            if (key == KeyEvent.VK_RIGHT) {
+                player.setVelX(0);
+            } else if (key == KeyEvent.VK_LEFT) {
+                player.setVelX(0);
+            } else if (key == KeyEvent.VK_DOWN) {
+                player.setVelY(0);
+            } else if (key == KeyEvent.VK_UP) {
+                player.setVelY(0);
+            }
+        }/*else if (state == STATE.OTHER) {
+            if (key == KeyEvent.VK_RIGHT) {
+                player.setVelX(0);
+            } else if (key == KeyEvent.VK_D) {
 
-        if (key == KeyEvent.VK_RIGHT){
-            player.setVelX(0);
-        }else if (key == KeyEvent.VK_LEFT){
-            player.setVelX(0);
-        }else if (key == KeyEvent.VK_DOWN){
-            player.setVelY(0);
-        }else if (key == KeyEvent.VK_UP){
-            player.setVelY(0);
-        }
+            } else if (key == KeyEvent.VK_LEFT) {
+                player.setVelX(0);
+            } else if (key == KeyEvent.VK_A) {
+
+            } else if (key == KeyEvent.VK_DOWN) {
+                player.setVelY(0);
+            } else if (key == KeyEvent.VK_S) {
+
+            }  else if (key == KeyEvent.VK_UP) {
+                player.setVelY(0);
+            } else if (key == KeyEvent.VK_W) {
+
+            }
+        }*/
     }
 
-    public BufferedImage getSpriteSheet() {
-        return spriteSheet;
-    }
+    //To get spritesheet of player
+    public BufferedImage getSpriteSheet() { return spriteSheet; }
 
-    public BufferedImage getSpritesheetEnemy() {
-        return spritesheetEnemy;
-    }
+    //To get spritesheet of enemy
+    public BufferedImage getSpritesheetEnemy() { return spritesheetEnemy; }
 
-    public int getEnemy_Count(){
-        return Enemy_Count;
-    }
+    //Total enemy count
+    public int getEnemy_Count(){ return Enemy_Count; }
 
-    public void setEnemy_Count(int enemy_Count){
-        this.Enemy_Count = enemy_Count;
-    }
+    //To change enemies in game
+    public void setEnemy_Count(int enemy_Count){ this.Enemy_Count = enemy_Count; }
 }
