@@ -23,6 +23,8 @@ public class GameGui extends Canvas implements Runnable{
     public static final Color FRAME_COLOR = Color.BLACK;
     public static final Color TEXT_COLOR = Color.WHITE;
 
+    public int second = 0;
+
     //Enemy Counter
     private int Enemy_Count = 20;
 
@@ -45,13 +47,11 @@ public class GameGui extends Canvas implements Runnable{
     private Texture texture;
     private Controller controller;
     private Menu menu;
+    private Timestamp timestamp;
 
     //Enemy Entity
     public LinkedList<EntityB> eb;
 
-    //Timer
-    Timer timer;
-    private int seconds;
 
     //All classes objects and SpriteSheets
     private void init(){
@@ -59,8 +59,8 @@ public class GameGui extends Canvas implements Runnable{
         BufferedImageLoader loader = new BufferedImageLoader();
         try{
             spriteSheet = loader.loadImage("Sprite/Amelia Watson.png");         //Player SpriteSheet
-            spritesheetEnemy = loader.loadImage("Sprite/Enemies(Weapons).png"); //Enemy SpriteSheet
-            background = loader.loadImage("Sprite/minimalist.jpg");             //Background
+            spritesheetEnemy = loader.loadImage("Sprite/Enemies.png");          //Enemy SpriteSheet
+            background = loader.loadImage("Sprite/Background.png");             //Background
             healthbar = loader.loadImage("Sprite/heart.png");                   //Player health
 
         }catch (IOException e){
@@ -74,6 +74,7 @@ public class GameGui extends Canvas implements Runnable{
         controller = new Controller(texture);                                         //Controls the player
         player = new Player(200,200, texture, this, controller);       //Player Spawn point and object
         menu = new Menu();                                                            //Main Menu
+        timestamp = new Timestamp();
 
         eb = controller.getEntityB();                                                 //Enemy list
 
@@ -140,7 +141,6 @@ public class GameGui extends Canvas implements Runnable{
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
-        simpleTimer();
         start();
     }
 
@@ -171,22 +171,14 @@ public class GameGui extends Canvas implements Runnable{
                 System.out.println(updates + " Ticks, Fps " + frames);
                 updates = 0;
                 frames = 0;
+                if (state == STATE.MENU){
+                    second = 0;
+                } else {
+                    second++;
+                }
             }
         }
         stop();
-    }
-
-    //Timer (still a work in progress)
-    public void simpleTimer(){
-        timer = new Timer(1000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                seconds++;
-
-
-            }
-        });
-
     }
 
     //Ticks for all entities in game
@@ -211,20 +203,17 @@ public class GameGui extends Canvas implements Runnable{
 
         graphics.drawImage(image, 0, 0, getWidth(), getHeight(), this);
 
-        graphics.drawImage(background, 0, 0, null);
-
         if (state == STATE.GAME) {
+            graphics.drawImage(background, -10, -950,null);
             player.render(graphics);
             controller.render(graphics);
+            timestamp.render(graphics, second);
 
             graphics.drawImage(healthbar, 5, 5, null);
             if (songplayed == true){
                 bgm.stopSong();
                 bgm.loadPlaylist(PlaylistFile1);
                 songplayed = false;
-
-                seconds = 0;
-                timer.start();
             }
         } else if (state == STATE.MENU){
             menu.render(graphics);
@@ -233,7 +222,6 @@ public class GameGui extends Canvas implements Runnable{
                 bgm.loadPlaylist(PlaylistFile2);
                 songplayed = true;
 
-                timer.stop();
             }
         }
         graphics.dispose();

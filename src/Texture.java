@@ -6,6 +6,7 @@ import java.util.Random;
 public class Texture {
     public BufferedImage[] player = new BufferedImage[3];                       //3 frame so array length is 3
     public BufferedImage[] enemy = new BufferedImage[8];                        //8 frame so array length is 8
+    public BufferedImage[] death = new BufferedImage[5];
 
     private SpriteSheet spriteSheet, spriteSheetEnemy;
     Random random = new Random();
@@ -28,6 +29,12 @@ public class Texture {
         player[0] = spriteSheet.grabImage(7,533,64,64);
         player[1] = spriteSheet.grabImage(72,533,64,64);
         player[2] = spriteSheet.grabImage(137,533,64,64);
+
+        death[0] = spriteSheetEnemy.grabImage(4, 2735, 256, 256);
+        death[1] = spriteSheetEnemy.grabImage(262, 2735, 256, 256);
+        death[2] = spriteSheetEnemy.grabImage(520, 2735, 256, 256);
+        death[3] = spriteSheetEnemy.grabImage(4, 2737, 256, 256);
+        death[4] = spriteSheetEnemy.grabImage(262, 2737, 256, 256);
 
         //Axe
         if (randomEnemy == 1) {
@@ -60,5 +67,9 @@ public class Texture {
             enemy[6] = spriteSheetEnemy.grabImage(400, 2494, 64, 64);
             enemy[7] = spriteSheetEnemy.grabImage(466, 2494, 64, 64);
         }
+    }
+
+    public int getRandomEnemy() {
+        return randomEnemy;
     }
 }
