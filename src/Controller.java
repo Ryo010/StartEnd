@@ -23,6 +23,13 @@ public class Controller {
         }
     }
 
+    public void destroyEnemy(){
+        for (int j = 0; j < e.size(); j++) {
+            EntityB entityE = e.get(j);
+            removeEntity(entityE);
+        }
+    }
+
     //Enemy ticks
     public void tick(){
         for (int i = 0; i < e.size(); i++ ){

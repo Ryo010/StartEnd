@@ -1,2 +1,3 @@
-/Users/anit/Desktop/StartEnd/src/Assets/BackgroundMusic/AWAKE.mp3
 /Users/anit/Desktop/StartEnd/src/Assets/BackgroundMusic/Midnight Grand Orchestra - Midnight Mission.mp3
+/Users/anit/Desktop/StartEnd/src/Assets/BackgroundMusic/千葉雄喜 - チーム友達 (Instrumental).mp3
+/Users/anit/Desktop/StartEnd/src/Assets/BackgroundMusic/AWAKE.mp3

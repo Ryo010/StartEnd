@@ -47,11 +47,6 @@ public class Player extends GameObject implements EntityA{
 
             //Checks for collision between player and enemy to end game
             if (Physics.Collision(this, entityB)){
-//                for (int j = 0; j<gameGui.eb.size(); j++) {
-//                    EntityB entityE = gameGui.eb.get(j);
-//                    controller.removeEntity(entityE);
-//                }
-                controller.removeEntity(entityB);
                 deathAnimation.runAnimation();
                 GameGui.Health -= 1;
                 GameGui.state = GameGui.STATE.MENU;

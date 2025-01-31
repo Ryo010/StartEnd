@@ -9,6 +9,6 @@ public class Timestamp {
         Font fnt0 = new Font("arial", Font.BOLD, 16);
         graphics.setFont(fnt0);
         graphics.setColor(Color.WHITE);
-        graphics.drawString(String.valueOf(seconds), GameGui.WIDTH / 2 + 50, 125);
+        graphics.drawString(String.valueOf(seconds), GameGui.WIDTH / 2 + 400, 40);
     }
 }

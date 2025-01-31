@@ -24,6 +24,7 @@ public class GameGui extends Canvas implements Runnable{
     public static final Color TEXT_COLOR = Color.WHITE;
 
     public int second = 0;
+    public boolean Enemy_spwaned = false;
 
     //Enemy Counter
     private int Enemy_Count = 20;
@@ -48,6 +49,7 @@ public class GameGui extends Canvas implements Runnable{
     private Controller controller;
     private Menu menu;
     private Timestamp timestamp;
+    private HighScore highScore;
 
     //Enemy Entity
     public LinkedList<EntityB> eb;
@@ -77,8 +79,7 @@ public class GameGui extends Canvas implements Runnable{
         timestamp = new Timestamp();
 
         eb = controller.getEntityB();                                                 //Enemy list
-
-        controller.createEnemy(Enemy_Count);                                          //Enemy Spawns
+        highScore = new HighScore();
     }
 
     //Thread start for game loop
@@ -172,9 +173,18 @@ public class GameGui extends Canvas implements Runnable{
                 updates = 0;
                 frames = 0;
                 if (state == STATE.MENU){
+                    if (Enemy_spwaned == true){
+                        Enemy_spwaned = false;
+                        controller.destroyEnemy();
+                        //highScore.changeHighScore(second);
+                    }
                     second = 0;
                 } else {
                     second++;
+                    if (Enemy_spwaned == false){
+                        Enemy_spwaned = true;
+                        controller.createEnemy(Enemy_Count);                                          //Enemy Spawns
+                    }
                 }
             }
         }
@@ -217,6 +227,7 @@ public class GameGui extends Canvas implements Runnable{
             }
         } else if (state == STATE.MENU){
             menu.render(graphics);
+
             if (songplayed == false){
                 bgm.stopSong();
                 bgm.loadPlaylist(PlaylistFile2);
